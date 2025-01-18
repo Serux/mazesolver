@@ -1,7 +1,11 @@
 from tkinter import Tk, BOTH, Canvas
 
-import shapes.Line as l
-import shapes.Point as p
+from shapes import Cell
+from shapes import Line
+from shapes import Point
+from shapes import Maze
+
+
 
 class Window:
     def __init__(self,width,height):
@@ -9,7 +13,7 @@ class Window:
         self.height = height
         self.rw= Tk()
         self.rw.title("Title")
-        self.canvas = Canvas()
+        self.canvas = Canvas(height=self.height,width=self.width)
         self.canvas.pack()
         self.is_running= False
         self.rw.protocol("WM_DELETE_WINDOW",self.close)
@@ -24,15 +28,16 @@ class Window:
         self.is_running = False
     def draw_line(self,line,fill_color):
         line.draw(self.canvas,fill_color)
+    def draw_cell(self,cell,fill_color):
+        cell.draw(fill_color)
         
         
 def main():
     win = Window(800, 600)
     
-    p1 = p.Point(0,0)
-    p2 = p.Point(100,100)
-    l1 = l.Line(p1,p2)
-    win.draw_line(l1,"red")
+    m = Maze(5,5,30,30,10,10,win) 
+
+    m.solve()
     
     win.wait_for_close()   
     
